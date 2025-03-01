@@ -2,17 +2,26 @@ import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { LightbulbIcon, Target, Users } from "lucide-react"
+import { getCampaigns } from "@/lib/api"
+import type { Campaign } from "@/lib/db"
 
-export default function Home() {
+export default async function Home() {
+  const campaigns: Campaign[] = await getCampaigns()
+
   return (
     <div className="container mx-auto px-4">
       <section className="relative h-[600px]">
-        <Image src="/banner.jpg" alt="People engaged in charitable activities" fill className="object-cover" />
+        <Image
+          src="/crowdfunding-hero.jpg"
+          alt="People collaborating on a crowdfunding project"
+          fill
+          className="object-cover"
+        />
         <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center text-white">
-          <h1 className="text-4xl font-bold mb-4">Help, Donate & Fundraise</h1>
-          <p className="text-xl mb-8">Your Contribution is Important</p>
+          <h1 className="text-4xl font-bold mb-4">Empower Change with HOPEHIVE</h1>
+          <p className="text-xl mb-8">Join our community of innovators and supporters</p>
           <Button asChild>
-            <Link href="/campaigns">Read More</Link>
+            <Link href="/campaigns">Explore Campaigns</Link>
           </Button>
         </div>
       </section>
@@ -71,7 +80,20 @@ export default function Home() {
 
       <section className="py-16">
         <h2 className="text-3xl font-bold mb-8 text-center">Featured Campaigns</h2>
-        {/* Add featured campaigns here */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {campaigns.slice(0, 3).map((campaign) => (
+            <div key={campaign.id} className="border rounded-lg p-4 shadow-md">
+              <h3 className="text-xl font-semibold mb-2">{campaign.title}</h3>
+              <p className="text-gray-600 mb-4">{campaign.description.slice(0, 100)}...</p>
+              <div className="flex justify-between items-center">
+                <span className="text-orange-500 font-bold">${campaign.raised} raised</span>
+                <Button asChild>
+                  <Link href={`/campaigns/${campaign.id}`}>View Campaign</Link>
+                </Button>
+              </div>
+            </div>
+          ))}
+        </div>
       </section>
 
       <section className="bg-orange-100 py-16">

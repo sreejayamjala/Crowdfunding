@@ -16,11 +16,11 @@ export function Navigation() {
             <Link href="/about" className="hover:text-orange-500">
               ABOUT
             </Link>
+            <Link href="/campaigns" className="hover:text-orange-500">
+              CAMPAIGNS
+            </Link>
             <Link href="/contact" className="hover:text-orange-500">
               CONTACT
-            </Link>
-            <Link href="/campaigns" className="hover:text-orange-500">
-              LIST OF CAMPAIGN
             </Link>
             <Button asChild variant="outline">
               <Link href="/login">LOGIN</Link>
